@@ -10,6 +10,7 @@ package org.usfirst.frc.team1732.robot;
 import org.usfirst.frc.team1732.robot.autotools.DriverStationData;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -47,6 +48,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		DriverStationData.pollPlatePosition();
+		Scheduler.getInstance().run();
 	}
 
 	@Override
@@ -59,7 +61,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-
+		Scheduler.getInstance().run();
 	}
 
 	@Override
@@ -72,7 +74,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-
+		Scheduler.getInstance().run();
 	}
 
 	@Override
