@@ -7,7 +7,13 @@
 
 package org.usfirst.frc.team1732.robot;
 
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.usfirst.frc.team1732.robot.autotools.DriverStationData;
+import org.usfirst.frc.team1732.robot.config.RobotConfig;
+import org.xml.sax.SAXException;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -21,9 +27,20 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  */
 public class Robot extends TimedRobot {
 
-	public Robot() {
+	// so that we can use instance variables
+	private static Robot instance;
+	public RobotConfig robotConfig;
+
+	// avoid using this method, put everything that doesn't HAVE to be here in
+	// robotInit()
+	public Robot() throws SAXException, IOException, ParserConfigurationException {
 		super();
+		instance = this;
 		setPeriod(0.01); // periodic methods will loop every 10 ms (1/100 sec)
+	}
+
+	public Robot getInstance() {
+		return instance;
 	}
 
 	/**
@@ -32,7 +49,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-
+		try {
+			robotConfig = new RobotConfig();
+		} catch (SAXException | IOException | ParserConfigurationException e) {
+			System.err.println("Error reading the XML Config. Check the syntax and the path");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
