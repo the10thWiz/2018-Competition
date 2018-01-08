@@ -13,6 +13,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.usfirst.frc.team1732.robot.autotools.DriverStationData;
 import org.usfirst.frc.team1732.robot.config.RobotConfig;
+import org.usfirst.frc.team1732.robot.subsystems.Drivetrain;
 import org.xml.sax.SAXException;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -30,6 +31,8 @@ public class Robot extends TimedRobot {
 	// so that we can use instance variables
 	private static Robot instance;
 	public RobotConfig robotConfig;
+
+	public Drivetrain drivetrain;
 
 	// avoid using this method, put everything that doesn't HAVE to be here in
 	// robotInit()
@@ -55,6 +58,7 @@ public class Robot extends TimedRobot {
 			System.err.println("Error reading the XML Config. Check the syntax and the path");
 			e.printStackTrace();
 		}
+		drivetrain = new Drivetrain(robotConfig.config);
 	}
 
 	@Override
