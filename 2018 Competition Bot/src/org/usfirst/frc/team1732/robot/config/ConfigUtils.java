@@ -20,7 +20,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -29,6 +28,7 @@ import org.xml.sax.SAXException;
  * 
  * Tutorial for xml notation: https://www.w3schools.com/xml/xml_usedfor.asp
  * 
+ * This is tools for creating and saving a config
  */
 public class ConfigUtils {
 
@@ -84,7 +84,4 @@ public class ConfigUtils {
 		transformer.transform(input, output);
 	}
 
-	public static Element getElement(Document doc, String elementName) {
-		return (Element) doc.getDocumentElement().getElementsByTagName(elementName).item(0);
-	}
 }
