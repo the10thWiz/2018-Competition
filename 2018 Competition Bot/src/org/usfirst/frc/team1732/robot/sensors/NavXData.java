@@ -33,6 +33,7 @@ public class NavXData {
 
 		SmartDashboard.putNumber(imu + "IMU_Accel_X", ahrs.getWorldLinearAccelX());
 		SmartDashboard.putNumber(imu + "IMU_Accel_Y", ahrs.getWorldLinearAccelY());
+		SmartDashboard.putNumber(imu + "IMU_Accel_Z", ahrs.getWorldLinearAccelZ());
 		SmartDashboard.putBoolean(imu + "IMU_IsMoving", ahrs.isMoving());
 		SmartDashboard.putBoolean(imu + "IMU_IsRotating", ahrs.isRotating());
 
@@ -44,8 +45,10 @@ public class NavXData {
 
 		SmartDashboard.putNumber(imu + "Velocity_X", ahrs.getVelocityX());
 		SmartDashboard.putNumber(imu + "Velocity_Y", ahrs.getVelocityY());
+		SmartDashboard.putNumber(imu + "Velocity_Z", ahrs.getVelocityZ());
 		SmartDashboard.putNumber(imu + "Displacement_X", ahrs.getDisplacementX());
 		SmartDashboard.putNumber(imu + "Displacement_Y", ahrs.getDisplacementY());
+		SmartDashboard.putNumber(imu + "Displacement_Z", ahrs.getDisplacementZ());
 
 		/* Display Raw Gyro/Accelerometer/Magnetometer Values */
 		/* NOTE: These values are not normally necessary, but are made available */
