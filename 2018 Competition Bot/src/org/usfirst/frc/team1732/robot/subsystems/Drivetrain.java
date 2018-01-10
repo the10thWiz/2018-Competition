@@ -17,8 +17,8 @@ public class Drivetrain extends Subsystem {
 	private TalonSRX leftTalon1;
 	private TalonSRX rightTalon1;
 
-	private static final int configTimeoutMS = 10; // recommended timeout by CTRE
-	private static final double driveDeadband = 0.04;
+	private static final int CONFIG_TIMEOUT = 10; // recommended timeout by CTRE
+	private static final double DRIVE_DEADBAND = 0.04; // CTRE default, but also need to pass to DifferentialDrive
 
 	public Drivetrain(Element driveTrain) {
 		leftTalon1 = configureTalon(RobotConfig.getElement(driveTrain, "leftTalon1"));
@@ -28,7 +28,7 @@ public class Drivetrain extends Subsystem {
 		configureTalon(RobotConfig.getElement(driveTrain, "RightTalon2"));
 		configureTalon(RobotConfig.getElement(driveTrain, "RightTalon3"));
 		drive = new DifferentialDrive(leftTalon1, rightTalon1);
-		drive.setDeadband(driveDeadband); // might not need these: talon's have their own "neutral zone"
+		drive.setDeadband(DRIVE_DEADBAND); // might not need these: talon's have their own "neutral zone"
 	}
 
 	private TalonSRX configureTalon(Element talonElement) {
@@ -36,6 +36,8 @@ public class Drivetrain extends Subsystem {
 		TalonSRX talon = new TalonSRX(CANid);
 		talon.setNeutralMode(NeutralMode.Coast);
 		talon.setInverted(RobotConfig.getBoolean(talonElement, "isInverted"));
+		// we need to figure out exactly what the follower motors will "follow" (do we
+		// need to configure current limit for followers too, or just master?
 
 		boolean isFollower = RobotConfig.getBoolean(talonElement, "isFollower");
 		if (isFollower) {
@@ -44,11 +46,11 @@ public class Drivetrain extends Subsystem {
 			// I have methods commented out here that we might want to use, but am waiting
 			// for more documentation
 
-			talon.configNeutralDeadband(driveDeadband, configTimeoutMS);
-			talon.configNominalOutputForward(+0, configTimeoutMS);
-			talon.configNominalOutputReverse(-0, configTimeoutMS);
-			talon.configPeakOutputForward(+1.0, configTimeoutMS);
-			talon.configPeakOutputReverse(-1.0, configTimeoutMS);
+			talon.configNeutralDeadband(DRIVE_DEADBAND, CONFIG_TIMEOUT);
+			talon.configNominalOutputForward(+0, CONFIG_TIMEOUT);
+			talon.configNominalOutputReverse(-0, CONFIG_TIMEOUT);
+			talon.configPeakOutputForward(+1.0, CONFIG_TIMEOUT);
+			talon.configPeakOutputReverse(-1.0, CONFIG_TIMEOUT);
 
 			// talon.configOpenloopRamp(secondsFromNeutralToFull, configTimeoutMS);
 			// talon.enableVoltageCompensation(false);

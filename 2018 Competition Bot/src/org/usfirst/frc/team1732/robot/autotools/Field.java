@@ -8,8 +8,8 @@ import java.awt.Rectangle;
 public class Field {
 
 	public static class Scale {
-		public static final Rectangle leftNullZone = new Rectangle(); // put in coordinates
-		public static final Rectangle rightNullZone = new Rectangle(); // put in coordinates
+		public static final Rectangle LEFT_NULL_ZONE = new Rectangle(); // put in coordinates
+		public static final Rectangle RIGHT_NULL_ZONE = new Rectangle(); // put in coordinates
 	}
 
 	public static class CloseSwitch {
