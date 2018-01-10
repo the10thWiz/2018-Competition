@@ -29,22 +29,15 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  */
 public class Robot extends TimedRobot {
 
-	// so that we can use instance variables
-	private static Robot instance;
 	public Document robotConfig;
 
-	public Drivetrain drivetrain;
+	public static Drivetrain drivetrain;
 
 	// avoid using this method, put everything that doesn't HAVE to be here in
 	// robotInit()
 	public Robot() throws SAXException, IOException, ParserConfigurationException {
 		super();
-		instance = this;
 		setPeriod(0.01); // periodic methods will loop every 10 ms (1/100 sec)
-	}
-
-	public Robot getInstance() {
-		return instance;
 	}
 
 	/**
