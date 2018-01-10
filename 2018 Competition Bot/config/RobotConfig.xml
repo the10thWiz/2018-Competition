@@ -1,40 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- This is a comment -->
+<!DOCTYPE product [
+	<!ENTITY leftMasterCANid '1'>
+	<!ENTITY rightMasterCANid '4'>
+]>
 <robot>
 	<drivetrain>
-		<leftTalonMaster>
-			<CANid>1</CANid>
-			<isInverted>false</isInverted>
-			<isFollower>false</isFollower>
-		</leftTalonMaster>
-		
 		<leftTalon1>
-			<CANid>2</CANid>
+			<CANid>&leftMasterCANid;
+			</CANid>
+			<isFollower>false</isFollower>
+			<masterCANid>&leftMasterCANid;
+			</masterCANid>
 			<isInverted>false</isInverted>
-			<isFollower>true</isFollower>
 		</leftTalon1>
 		
 		<leftTalon2>
-			<CANid>3</CANid>
+			<isFollower>true</isFollower>
+			<masterCANid>&leftMasterCANid;
+			</masterCANid>
+			<CANid>2</CANid>
 			<isInverted>false</isInverted>
-			<isFollower>true</isFollower>
 		</leftTalon2>
-		
-		<rightTalonMaster>
-			<CANid>4</CANid>
-			<isInverted>true</isInverted>
-			<isFollower>false</isFollower>
-		</rightTalonMaster>
-		
+
+		<leftTalon3>
+			<CANid>3</CANid>
+			<isFollower>true</isFollower>
+			<masterCANid>&leftMasterCANid;
+			</masterCANid>
+			<isInverted>false</isInverted>
+		</leftTalon3>
+
 		<rightTalon1>
-			<CANid>5</CANid>
+			<CANid>&rightMasterCANid;
+			</CANid>
+			<isFollower>false</isFollower>
+			<masterCANid>&rightMasterCANid;
+			</masterCANid>
 			<isInverted>true</isInverted>
-			<isFollower>true</isFollower>
 		</rightTalon1>
-		
+
 		<rightTalon2>
-			<CANid>6</CANid>
-			<isInverted>true</isInverted>
+			<CANid>5</CANid>
 			<isFollower>true</isFollower>
+			<masterCANid>&rightMasterCANid;
+			</masterCANid>
+			<isInverted>false</isInverted>
 		</rightTalon2>
+
+		<rightTalon3>
+			<CANid>6</CANid>
+			<isFollower>true</isFollower>
+			<masterCANid>&rightMasterCANid;
+			</masterCANid>
+			<isInverted>false</isInverted>
+		</rightTalon3>
 	</drivetrain>
 </robot>

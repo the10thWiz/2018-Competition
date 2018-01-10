@@ -1,47 +1,73 @@
 package org.usfirst.frc.team1732.robot.subsystems;
 
 import org.usfirst.frc.team1732.robot.config.RobotConfig;
+import org.usfirst.frc.team1732.robot.drivercontrol.DifferentialDrive;
 import org.w3c.dom.Element;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class Drivetrain extends Subsystem {
 
-	public DifferentialDrive drive = new DifferentialDrive(null, null);
+	public DifferentialDrive drive;
 
-	private TalonSRX leftTalonMaster;
 	private TalonSRX leftTalon1;
-	private TalonSRX leftTalon2;
-	private TalonSRX rightTalonMaster;
 	private TalonSRX rightTalon1;
-	private TalonSRX rightTalon2;
+
+	private static final int configTimeoutMS = 10; // recommended timeout by CTRE
+	private static final double driveDeadband = 0.04;
 
 	public Drivetrain(Element driveTrain) {
-		leftTalonMaster = configureTalon(RobotConfig.getElement(driveTrain, "leftTalonMaster"));
 		leftTalon1 = configureTalon(RobotConfig.getElement(driveTrain, "leftTalon1"));
-		leftTalon2 = configureTalon(RobotConfig.getElement(driveTrain, "leftTalon2"));
-		rightTalonMaster = configureTalon(RobotConfig.getElement(driveTrain, "leftTalonMaster"));
-		rightTalon1 = configureTalon(RobotConfig.getElement(driveTrain, "leftTalon1"));
-		rightTalon2 = configureTalon(RobotConfig.getElement(driveTrain, "leftTalon2"));
-
+		configureTalon(RobotConfig.getElement(driveTrain, "leftTalon2"));
+		configureTalon(RobotConfig.getElement(driveTrain, "leftTalon3"));
+		rightTalon1 = configureTalon(RobotConfig.getElement(driveTrain, "RightTalon1"));
+		configureTalon(RobotConfig.getElement(driveTrain, "RightTalon2"));
+		configureTalon(RobotConfig.getElement(driveTrain, "RightTalon3"));
+		drive = new DifferentialDrive(leftTalon1, rightTalon1);
+		drive.setDeadband(driveDeadband); // might not need these: talon's have their own "neutral zone"
 	}
 
 	private TalonSRX configureTalon(Element talonElement) {
 		int CANid = RobotConfig.getInteger(talonElement, "CANid");
 		TalonSRX talon = new TalonSRX(CANid);
+		talon.setNeutralMode(NeutralMode.Coast);
+		talon.setInverted(RobotConfig.getBoolean(talonElement, "isInverted"));
+
 		boolean isFollower = RobotConfig.getBoolean(talonElement, "isFollower");
 		if (isFollower) {
-
+			talon.set(ControlMode.Follower, RobotConfig.getInteger(talonElement, "masterCANid"));
 		} else {
-			// I have methods here that we might want to use, but am waiting for more
-			// documentation
-			// talon.configContinuousCurrentLimit(amps, timeoutMs);
-			// talon.configNeutralDeadband(percentDeadband, timeoutMs);
-			// talon.configNominalOutputForward(percentOut, timeoutMs)
-			// talon.config
+			// I have methods commented out here that we might want to use, but am waiting
+			// for more documentation
+
+			talon.configNeutralDeadband(driveDeadband, configTimeoutMS);
+			talon.configNominalOutputForward(+0, configTimeoutMS);
+			talon.configNominalOutputReverse(-0, configTimeoutMS);
+			talon.configPeakOutputForward(+1.0, configTimeoutMS);
+			talon.configPeakOutputReverse(-1.0, configTimeoutMS);
+
+			// talon.configOpenloopRamp(secondsFromNeutralToFull, configTimeoutMS);
+			// talon.enableVoltageCompensation(false);
+
+			// talon.enableCurrentLimit(false);
+			// talon.configContinuousCurrentLimit(amps, configTimeoutMS);
+			// talon.configPeakCurrentDuration(milliseconds, configTimeoutMS);
+			// talon.configPeakCurrentLimit(amps, configTimeoutMS)
+
+			/*
+			 * can set very specific frame periods (how frequently CAN data is sent)
+			 * 
+			 * talon.setControlFramePeriod(ControlFrame.Control_3_General, 20);
+			 * talon.setStatusFramePeriod(StatusFrame.Status_1_General, periodMs,
+			 * configTimeoutMS)
+			 * talon.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, periodMs,
+			 * configTimeoutMS)
+			 */
+
 		}
 		return talon;
 	}
