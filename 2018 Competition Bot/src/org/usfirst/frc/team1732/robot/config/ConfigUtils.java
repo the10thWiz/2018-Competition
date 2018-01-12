@@ -20,6 +20,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -84,4 +85,33 @@ public class ConfigUtils {
 		transformer.transform(input, output);
 	}
 
+	/*
+	 * Returns the first element within the document with that name
+	 */
+	public static Element getElement(Document doc, String elementName) {
+		return (Element) doc.getElementsByTagName(elementName).item(0);
+	}
+
+	/*
+	 * Returns the first element within the top element with that name
+	 */
+	public static Element getElement(Element top, String elementName) {
+		return (Element) top.getElementsByTagName(elementName).item(0);
+	}
+
+	public static String getText(Element top, String elementName) {
+		return getElement(top, elementName).getTextContent();
+	}
+
+	public static int getInteger(Element top, String elementName) {
+		return Integer.parseInt(getText(top, elementName));
+	}
+
+	public static boolean getBoolean(Element top, String elementName) {
+		return Boolean.parseBoolean(getText(top, elementName));
+	}
+
+	public static double getDouble(Element top, String elementName) {
+		return Double.parseDouble(getText(top, elementName));
+	}
 }

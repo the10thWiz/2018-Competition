@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1732.robot.subsystems;
 
-import org.usfirst.frc.team1732.robot.config.RobotConfig;
+import org.usfirst.frc.team1732.robot.config.ConfigUtils;
 import org.usfirst.frc.team1732.robot.drivercontrol.DifferentialDrive;
 import org.w3c.dom.Element;
 
@@ -21,27 +21,27 @@ public class Drivetrain extends Subsystem {
 	private static final double DRIVE_DEADBAND = 0.04; // CTRE default, but also need to pass to DifferentialDrive
 
 	public Drivetrain(Element driveTrain) {
-		leftTalon1 = configureTalon(RobotConfig.getElement(driveTrain, "leftTalon1"));
-		configureTalon(RobotConfig.getElement(driveTrain, "leftTalon2"));
-		configureTalon(RobotConfig.getElement(driveTrain, "leftTalon3"));
-		rightTalon1 = configureTalon(RobotConfig.getElement(driveTrain, "RightTalon1"));
-		configureTalon(RobotConfig.getElement(driveTrain, "RightTalon2"));
-		configureTalon(RobotConfig.getElement(driveTrain, "RightTalon3"));
+		leftTalon1 = configureTalon(ConfigUtils.getElement(driveTrain, "leftTalon1"));
+		configureTalon(ConfigUtils.getElement(driveTrain, "leftTalon2"));
+		configureTalon(ConfigUtils.getElement(driveTrain, "leftTalon3"));
+		rightTalon1 = configureTalon(ConfigUtils.getElement(driveTrain, "RightTalon1"));
+		configureTalon(ConfigUtils.getElement(driveTrain, "RightTalon2"));
+		configureTalon(ConfigUtils.getElement(driveTrain, "RightTalon3"));
 		drive = new DifferentialDrive(leftTalon1, rightTalon1);
 		drive.setDeadband(DRIVE_DEADBAND); // might not need these: talon's have their own "neutral zone"
 	}
 
 	private TalonSRX configureTalon(Element talonElement) {
-		int CANid = RobotConfig.getInteger(talonElement, "CANid");
+		int CANid = ConfigUtils.getInteger(talonElement, "CANid");
 		TalonSRX talon = new TalonSRX(CANid);
 		talon.setNeutralMode(NeutralMode.Coast);
-		talon.setInverted(RobotConfig.getBoolean(talonElement, "isInverted"));
+		talon.setInverted(ConfigUtils.getBoolean(talonElement, "isInverted"));
 		// we need to figure out exactly what the follower motors will "follow" (do we
 		// need to configure current limit for followers too, or just master?
 
-		boolean isFollower = RobotConfig.getBoolean(talonElement, "isFollower");
+		boolean isFollower = ConfigUtils.getBoolean(talonElement, "isFollower");
 		if (isFollower) {
-			talon.set(ControlMode.Follower, RobotConfig.getInteger(talonElement, "masterCANid"));
+			talon.set(ControlMode.Follower, ConfigUtils.getInteger(talonElement, "masterCANid"));
 		} else {
 			// I have methods commented out here that we might want to use, but am waiting
 			// for more documentation

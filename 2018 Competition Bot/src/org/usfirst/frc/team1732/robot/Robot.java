@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.usfirst.frc.team1732.robot.autotools.DriverStationData;
+import org.usfirst.frc.team1732.robot.config.ConfigUtils;
 import org.usfirst.frc.team1732.robot.config.RobotConfig;
 import org.usfirst.frc.team1732.robot.subsystems.Drivetrain;
 import org.w3c.dom.Document;
@@ -52,7 +53,7 @@ public class Robot extends TimedRobot {
 			System.err.println("Error reading the XML Config. Check the syntax and the path");
 			e.printStackTrace();
 		}
-		drivetrain = new Drivetrain(RobotConfig.getElement(robotConfig, "drivetrain"));
+		drivetrain = new Drivetrain(ConfigUtils.getElement(robotConfig, "drivetrain"));
 	}
 
 	@Override
