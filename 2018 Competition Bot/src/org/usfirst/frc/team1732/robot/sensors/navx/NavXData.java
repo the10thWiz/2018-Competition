@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1732.robot.sensors;
+package org.usfirst.frc.team1732.robot.sensors.navx;
 
 import com.kauailabs.navx.frc.AHRS;
 

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1732.robot.sensors;
+package org.usfirst.frc.team1732.robot.sensors.encoder;
 
 import edu.wpi.first.wpilibj.Encoder;
 
