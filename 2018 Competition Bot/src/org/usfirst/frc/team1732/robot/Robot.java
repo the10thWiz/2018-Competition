@@ -11,9 +11,9 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.usfirst.frc.team1732.robot.autotools.DriverStationData;
 import org.usfirst.frc.team1732.robot.config.ConfigUtils;
 import org.usfirst.frc.team1732.robot.config.RobotConfig;
+import org.usfirst.frc.team1732.robot.sensors.Sensors;
 import org.usfirst.frc.team1732.robot.subsystems.Drivetrain;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -30,15 +30,20 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  */
 public class Robot extends TimedRobot {
 
-	public Document robotConfig;
-
+	// subsystems
 	public static Drivetrain drivetrain;
+	public static Sensors sensors;
+
+	// config
+	public Document robotConfig;
+	public static final int PERIOD_MS = 10;
+	public static final int CONFIG_TIMEOUT = 10; // recommended timeout by CTRE
 
 	// avoid using this method, put everything that doesn't HAVE to be here in
 	// robotInit()
 	public Robot() throws SAXException, IOException, ParserConfigurationException {
 		super();
-		setPeriod(0.01); // periodic methods will loop every 10 ms (1/100 sec)
+		setPeriod(PERIOD_MS / 1000.0); // periodic methods will loop every 10 ms (1/100 sec)
 	}
 
 	/**
@@ -54,6 +59,7 @@ public class Robot extends TimedRobot {
 			e.printStackTrace();
 		}
 		drivetrain = new Drivetrain(ConfigUtils.getElement(robotConfig, "drivetrain"));
+		sensors = new Sensors();
 	}
 
 	@Override
@@ -68,7 +74,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		DriverStationData.pollPlatePosition();
 		Scheduler.getInstance().run();
 	}
 
