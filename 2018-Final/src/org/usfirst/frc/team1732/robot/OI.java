@@ -10,6 +10,12 @@ package org.usfirst.frc.team1732.robot;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
+ * 
+ * Class to manage io with the driver station
+ * 
+ * Manages 2 Joysticks (left, right) and associated buttons (various names)
+ * 
+ * CONFIG/driverstation
  */
 public class OI {
 	//// CREATING BUTTONS

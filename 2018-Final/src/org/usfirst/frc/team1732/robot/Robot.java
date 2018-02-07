@@ -7,12 +7,19 @@
 
 package org.usfirst.frc.team1732.robot;
 
+import java.lang.management.OperatingSystemMXBean;
+
+import javax.management.ObjectName;
+
+import org.usfirst.frc.team1732.robot.commands.OperatorControl;
 import org.usfirst.frc.team1732.robot.conf.Config;
 import org.usfirst.frc.team1732.robot.conf.ConfigNotFoundException;
 
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,9 +35,10 @@ public class Robot extends TimedRobot {
 	// Subsystems
 
 	// Commands
-
+	public static Command teleop = new OperatorControl();
 	// Auto command Choices
-	public static Command[] autoCommands;
+	public static Command autoCommand;
+	public static SendableChooser<Command> autoCommands = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -55,7 +63,9 @@ public class Robot extends TimedRobot {
 
 	public void initCommands() {
 		try {
-
+			autoCommands.addDefault("Defualt", null);// defualt auto command, null
+//			autoCommands.addObject("NAME", new Command());// adds [Command] [NAME] to dashboard selection
+			//auto commands should not require subsytems, but rather instantiate commands to control subsystems
 		} catch (ConfigNotFoundException e) {
 			System.out.println("Failed to Init Commands");
 		}
@@ -84,6 +94,10 @@ public class Robot extends TimedRobot {
 		if(shouldReload) {
 			robotInit();
 		}
+		
+		// guarantees that the teleop and auto commands are not running
+		teleop.cancel();
+		autoCommand.cancel();
 	}
 
 	@Override
@@ -116,7 +130,9 @@ public class Robot extends TimedRobot {
 			 * ExampleCommand(); break; }
 			 */
 
-			// schedule the autonomous command (example)
+			// schedule the autonomous command
+			autoCommand = autoCommands.getSelected();
+			autoCommand.start();
 		}
 	}
 
@@ -137,6 +153,8 @@ public class Robot extends TimedRobot {
 			// teleop starts running. If you want the autonomous to
 			// continue until interrupted by another command, remove
 			// this line or comment it out.
+			
+			teleop.start();
 		}
 	}
 
