@@ -97,7 +97,9 @@ public class Robot extends TimedRobot {
 		
 		// guarantees that the teleop and auto commands are not running
 		teleop.cancel();
-		autoCommand.cancel();
+		if(autoCommand != null) {
+			autoCommand.cancel();
+		}
 	}
 
 	@Override
@@ -132,7 +134,11 @@ public class Robot extends TimedRobot {
 
 			// schedule the autonomous command
 			autoCommand = autoCommands.getSelected();
-			autoCommand.start();
+			if(autoCommand != null) {
+				autoCommand.start();
+			}else {
+				System.out.println("No auto command Selected");
+			}
 		}
 	}
 
